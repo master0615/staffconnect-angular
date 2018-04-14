@@ -1,0 +1,106 @@
+<!-- SIDENAV HEADER -->
+<div class="sidenav-header">
+    <!-- CHATS TOOLBAR -->
+    <mat-toolbar>
+        <!-- TOOLBAR BOTTOM -->
+        <mat-toolbar-row>
+
+            <!-- SEARCH -->
+            <div class="search-wrapper" fxFlex fxLayout="row" fxLayoutAlign="start center">
+
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+
+                    <mat-icon>search</mat-icon>
+
+                    <input debounce [(ngModel)]="searchText" type="text" placeholder="Search or start new chat" (onValueChange)="searchUsers.next({searchText: $event, type: 'all'})" fxFlex>
+
+                </div>
+            </div>
+            <!-- / SEARCH -->
+
+        </mat-toolbar-row>
+        <!-- / TOOLBAR BOTTOM -->
+
+    </mat-toolbar>
+    <!-- / CHATS TOOLBAR -->
+
+</div>
+<!-- / SIDENAV HEADER -->
+
+<!-- SIDENAV CONTENT -->
+<div class="sidenav-content" fusePerfectScrollbar fxFlex>
+
+    <!-- CHATS CONTENT -->
+    <div *fuseIfOnDom [@animateStagger]="{value:'50'}">
+
+        <!-- CHATS LIST-->
+        <div class="chat-list" fxLayout="column" *ngIf="!searchText">
+
+            <div matSubheader>
+                Chat
+            </div>
+
+            <button mat-button class="contact"
+                    *ngFor="let thread of threads"
+                    (click)="fetchChat.next(thread.id)"
+                    [@animate]="{value:'*',params:{y:'100%'}}">
+
+                <div fxLayout="row" fxLayoutAlign="start center">
+
+                    <div class="avatar-wrapper" fxFlex="0 1 auto" fxLayoutAlign="center center">
+                        <img [src]="thread.ppic_a || 'https://staffconnect.net/images/nopic_thumb_male.jpg'" class="avatar"/>
+                    </div>
+
+                    <div fxLayout="row" fxFlex>
+
+                        <div class="" fxFlex fxLayout="column" fxLayoutAlign="center start">
+                            <div class="contact-name">{{thread.name}}</div>
+                        </div>
+
+                        <div fxLayout="column" fxLayoutAlign="center end">
+                            <div *ngIf="thread.unread > 0" class="unread-message-count">{{thread.unread}}</div>
+                        </div>
+                    </div>
+                </div>
+            </button>
+
+            <p *ngIf="threads.length === 0" class="m-0 p-16">You don't have any contact yet. Please search and add ones.</p>
+
+        </div>
+        <!-- / CHATS LIST-->
+
+        <!-- SESSION LIST -->
+        <div class="chat-list" fxLayout="column" *ngIf="searchText">
+
+            <div matSubheader>
+                Search Result
+            </div>
+
+            <button mat-button class="contact"
+                    *ngFor="let user of users"
+                    (click)="tapContact(user)"
+                    [@animate]="{value:'*',params:{y:'100%'}}">
+
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <div class="avatar-wrapper" fxFlex="0 1 auto" fxLayoutAlign="center center">
+                        <img [src]="user.ppic_a || 'https://staffconnect.net/images/nopic_thumb_male.jpg'" class="avatar"/>
+                    </div>
+
+                    <div fxLayout="row" fxFlex>
+                        <div class="" fxFlex fxLayout="column" fxLayoutAlign="center start">
+                            <div class="contact-name">{{user.name}}</div>
+                        </div>
+                    </div>
+                </div>
+            </button>
+
+            <p *ngIf="users.length === 0" class="m-0 p-16">No results.</p>
+
+        </div>
+        <!-- / SESSION LIST -->
+
+    </div>
+    <!-- / CHATS CONTENT -->
+
+</div>
+<!-- / SIDENAV CONTENT -->

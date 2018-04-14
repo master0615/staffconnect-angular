@@ -1,0 +1,87 @@
+.profile-info-edit-field-options-dialog {
+    width: 600px;
+
+    .mat-icon-button {
+        &:disabled  {
+            .mat-icon {
+                color: #ccc;
+            }
+        }
+    }
+
+    .filter.mat-icon {
+        border-radius: 50%;
+        width: 40px;
+        line-height: 40px;
+        margin-right: 16px;
+        height: 40px;
+    }
+    
+    .mat-dialog-container {
+        padding: 0;
+    }
+
+    .ngx-dnd-container {
+        width: 550px;
+    }
+
+    .option {
+        border: 1px solid #eee;
+        padding: 2px 13px;
+        background-color: #eee;
+
+        .mat-icon-button {
+            margin-right: -12px;
+        }
+    }
+
+    .mat-radio-button {
+        margin-left: 15px;
+    }
+
+    .ngx-dnd-item {
+        transition: opacity 0.4s ease-in-out;
+        display: block; 
+    }
+
+    .ngx-dnd-item:not(.has-handle):not(.move-disabled),
+    .ngx-dnd-item.has-handle [ngxdraghandle],
+    .ngx-dnd-item.has-handle [ngxDragHandle] {
+        cursor: move;
+        cursor: grab;
+        cursor: -webkit-grab;
+    }
+
+    .ngx-dnd-item .ngx-dnd-content {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .gu-mirror {
+        position: fixed !important;
+        margin: 0 !important;
+        z-index: 9999 !important;
+        opacity: 0.8;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+        filter: alpha(opacity=80);
+    }
+
+    .gu-hide {
+        display: none !important;
+    }
+
+    .gu-unselectable {
+        -webkit-user-select: none !important;
+        -moz-user-select: none !important;
+        -ms-user-select: none !important;
+        user-select: none !important;
+    }
+
+    .gu-transit {
+        opacity: 0.2;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+        filter: alpha(opacity=20);
+    }
+}

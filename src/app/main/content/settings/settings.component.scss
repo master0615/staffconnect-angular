@@ -1,0 +1,22 @@
+:host {
+    
+    .inner-sidenav {
+        height: 100%;
+    }
+
+    .mat-sidenav-content {
+        margin-left: 220px;
+    }
+
+    
+    .page-layout {
+        overflow: unset !important;
+        margin: -1em;
+        width: inherit;
+    }
+
+    .header {
+        height: auto !important;
+        min-height: 200px !important;
+    }
+}

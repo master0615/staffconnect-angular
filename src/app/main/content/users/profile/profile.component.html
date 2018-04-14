@@ -1,0 +1,55 @@
+<div id="profile" class="page-layout simple tabbed" fusePerfectScrollbar *ngIf="userInfo">
+
+    <!-- HEADER -->
+    <div class="header p-24" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between end">
+
+        <div class="user-info" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center">
+            <img class="profile-image avatar huge"
+                [src]="getAvatar(userInfo)">
+            <div class="name">
+                {{userInfo.fname}} {{userInfo.lname}}
+            </div>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <mat-tab-group dynamicHeight="true">
+
+            <mat-tab label="About">
+                <app-users-profile-about [userInfo]="userInfo" [currentUser]="currentUser" [ratings]="ratings"></app-users-profile-about>
+            </mat-tab>
+
+            <mat-tab label="Skills & Qualifications">
+                <app-users-profile-attributes [userInfo]="userInfo" [currentUser]="currentUser"></app-users-profile-attributes>
+            </mat-tab>
+
+            <mat-tab label="Photos">
+                <app-users-profile-photo
+                    [userInfo]="userInfo"
+                    [currentUser]="currentUser"
+                    (onAvatarChanged)="onAvatarChanged($event)">
+                </app-users-profile-photo>
+            </mat-tab>
+
+            <mat-tab label="Videos">
+                <app-users-profile-video [userInfo]="userInfo" [currentUser]="currentUser"></app-users-profile-video>
+            </mat-tab>
+
+            <mat-tab label="Documents">
+                <app-users-profile-document [userInfo]="userInfo" [currentUser]="currentUser"></app-users-profile-document>
+            </mat-tab>
+
+            <mat-tab label="Work Areas">
+                <app-users-profile-workareas [userInfo]="userInfo" [currentUser]="currentUser"></app-users-profile-workareas>
+            </mat-tab>
+
+        </mat-tab-group>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

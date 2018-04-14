@@ -1,0 +1,258 @@
+<div class="users-wrapper page-layout simple">
+
+    <!-- HEADER -->
+    <div class="header p-16 p-sm-24 mat-accent-bg" fxLayout="column">
+
+        <ng-container *ngIf="selectedUsers.length > 0">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" *fuseIfOnDom
+            [@animate]="{value:'*',params:{delay:'50ms'}}"
+            fxLayoutGap.gt-xs="12px" fxLayoutGap.xs="4px" fxLayoutWrap class="action-btns">
+
+            <button mat-raised-button class="mat-white-bg my-4">
+                    <mat-icon>mail</mat-icon>
+                    <span>New Message</span>
+            </button>
+
+            <button mat-raised-button class="mat-white-bg my-4">
+                <mat-icon>assignment</mat-icon>
+                <span>Assign Reports</span>
+            </button>
+
+            <button mat-raised-button class="mat-white-bg my-4">
+                <mat-icon>add_to_photos</mat-icon>
+                <span>Export</span>
+            </button>
+
+            <button mat-raised-button class="mat-white-bg my-4">
+                <mat-icon>contact_mail</mat-icon>
+                <span>Email Showcase</span>
+            </button>
+
+            <button mat-raised-button class="mat-white-bg my-4">
+                <mat-icon>contact_mail</mat-icon>
+                <span>Add to presentation</span>
+            </button>
+
+            <button mat-raised-button class="mat-white-bg my-4">
+                <mat-icon>perm_contact_calendar</mat-icon>
+                <span>Add to submission</span>
+            </button>
+        </div>
+        </ng-container>
+
+        <!-- SEARCHBAR -->
+        <app-users-search-bar (onFiltersChange)="onFiltersChange($event)"
+                              [typeFilters]="typeFilters"
+                              (onTypeFilterSelected)="onTypeFilterChange($event)">
+        </app-users-search-bar>
+        <!-- / SEARCHBAR -->
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content p-24 pt-40 pb-56 ps ps--active-y">
+
+        <!-- TABLE -->
+        <div *ngIf="users" class="users-table">
+
+            <ngx-datatable
+                #table
+                class="material striped"
+                [rows]="users"
+                [loadingIndicator]="loadingIndicator"
+                [columnMode]="'force'"
+                [headerHeight]="48"
+                [footerHeight]="56"
+                [rowHeight]="'auto'"
+                [scrollbarH]="true"
+                [selectionType]="'checkbox'"
+                [selectAllRowsOnPage]="true"
+                [selected]="selectedUsers"
+                [reorderable]="reorderable"
+                [externalPaging]="true"
+                [count]="total"
+                [offset]="pageNumber"
+                [limit]="pageSize"
+                [sortType]="'multi'"
+                (page)="setPage($event)"
+                (sort)="onSort($event)"
+                (select)="onSelect($event)"
+                (activate)="onActivate($event)">
+
+                <ngx-datatable-column
+                    [width]="50"
+                    [sortable]="false"
+                    [canAutoResize]="false"
+                    [draggable]="false"
+                    [resizeable]="false"
+                    [headerCheckboxable]="true">
+
+                    <ng-template ngx-datatable-header-template
+                                 let-value="value"
+                                 let-allRowsSelected="allRowsSelected"
+                                 let-selectFn="selectFn">
+                        <mat-checkbox [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)"></mat-checkbox>
+                    </ng-template>
+                    
+                    <ng-template ngx-datatable-cell-template
+                                 let-value="value"
+                                 let-isSelected="isSelected"
+                                 let-onCheckboxChangeFn="onCheckboxChangeFn">
+                        <mat-checkbox [checked]="isSelected" (change)="onCheckboxChangeFn($event)"></mat-checkbox>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ng-container *ngFor="let column of columns">
+
+                    <ngx-datatable-column
+                        *ngIf="!['id', 'ppic_a', 'fav'].includes(column.key_name)"
+                        [name]="column.display_name"
+                        [prop]="column.key_name"
+                        [sortable]="column.sortable == 1 ? true : false"
+                        >
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column
+                        *ngIf="column.key_name == 'ppic_a'"
+                        [name]="column.display_name"
+                        [prop]="column.key_name"
+                        [width]="100"
+                        [sortable]="false"
+                        [canAutoResize]="false">
+                        <ng-template *ngIf="column.key_name == 'ppic_a'" let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <img class="avatar" [src]="getAvatar(value)" (click)="openUserTab(row, $event)" />
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column
+                        *ngIf="column.key_name == 'fav'"
+                        [name]="column.display_name"
+                        [prop]="column.key_name"
+                        [sortable]="column.sortable == 1 ? true : false"
+                        [width]="100"
+                        [canAutoResize]="false">
+                        
+                        <ng-template *ngIf="column.key_name =='fav'" let-row="row" let-value="value" ngx-datatable-cell-template>
+
+                            <div class="" fxLayout="row" fxLayoutAlign="start center">
+
+                                <button mat-icon-button (click)="toggleFav(row, $event)">
+                                    <mat-icon [class.amber-600-fg]="value == 1">star</mat-icon>
+                                </button>
+
+                            </div>
+
+                        </ng-template>
+
+                    </ngx-datatable-column>
+
+                </ng-container>
+
+                <ngx-datatable-column 
+                    [width]="100"
+                    [sortable]="false"
+                    [resizeable]="false"
+                    [draggable]="false"
+                    [canAutoResize]="false">
+                    
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        
+                        <button mat-icon-button [matMenuTriggerFor]="menu" class="more-vert">
+                            <mat-icon class="material-icons">more_vert</mat-icon>
+                        </button>
+                        
+                        <mat-menu #menu="matMenu">
+
+                            <button mat-menu-item>
+                                <mat-icon>vpn_key</mat-icon>
+                                <span>Login as user</span>
+                            </button>
+
+                            <button mat-menu-item [matMenuTriggerFor]="typeMenu">
+                                <mat-icon>shuffle</mat-icon>
+                                <span>Change type</span>
+                            </button>
+
+                            <button mat-menu-item>
+                                <mat-icon>vpn_key</mat-icon>
+                                <span>Change password</span>
+                            </button>
+
+                        </mat-menu>
+            
+                        <mat-menu #typeMenu="matMenu">
+
+                            <button mat-menu-item>Owner</button>
+                            <button mat-menu-item>Administrator</button>
+                            <button mat-menu-item>Supervisor</button>
+                            <button mat-menu-item>Staff</button>
+                            <button mat-menu-item>Inactive</button>
+                            <button mat-menu-item>Blacklisted</button>
+
+                        </mat-menu>
+
+                    </ng-template>
+
+                </ngx-datatable-column>
+
+                <ngx-datatable-footer>
+                    <ng-template ngx-datatable-footer-template
+                                 let-rowCount="rowCount"
+                                 let-pageSize="pageSize"
+                                 let-selectedCount="selectedCount"
+                                 let-curPage="curPage"
+                                 let-offset="offset">
+                        <div class="page-count h-60">
+                            Show
+                            <mat-form-field class="mx-8">
+                                <mat-select (change)="onPageLengthChange($event)" [value]="5">
+                                    <mat-option *ngFor="let item of pageLengths" [value]="item">{{item}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            entries
+                            <span class="mx-48">
+                                Showing {{pageSize * offset + 1}} to {{min(pageSize * (offset + 1), rowCount)}} of {{rowCount}} entries
+                            </span>
+                        </div>
+                        <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+                                         [pagerRightArrowIcon]="'datatable-icon-right'"
+                                         [pagerPreviousIcon]="'datatable-icon-prev'"
+                                         [pagerNextIcon]="'datatable-icon-skip'"
+                                         [page]="curPage"
+                                         [size]="pageSize"
+                                         [count]="rowCount"
+                                         [hidden]="!((rowCount / pageSize) > 1)"
+                                         (change)="setPage($event)">
+                        </datatable-pager>
+                    </ng-template>
+                </ngx-datatable-footer>
+
+            </ngx-datatable>
+
+        </div>
+        <!-- / TABLE -->
+
+        <!-- ADD USER BUTTON -->
+        <button *ngIf="mode == Mode.Normal" mat-fab class="mat-accent-bg" id="add-user-button" aria-label="add user"
+            (click)="openNewUser()">
+            <mat-icon>person_add</mat-icon>
+        </button>
+        <!-- / ADD USER BUTTON -->
+
+        <!-- ADD USERS TO SHIFT BUTTON -->
+        <button *ngIf="mode == Mode.Shift" mat-fab class="mat-warn-bg" id="add-user-button" aria-label="add user to shift"
+             (click)="addUsersToShift()">
+            <mat-icon>person_add</mat-icon>
+        </button>
+        <!-- / ADD USERS TO SHIFT BUTTON -->
+
+        <!-- ADD USERS TO ROLE BUTTON -->
+        <button *ngIf="mode == Mode.Role" mat-fab class="mat-warn-bg" id="add-user-button" aria-label="add user to shift" (click)="addUsersToRole()">
+            <mat-icon>person_add</mat-icon>
+        </button>
+        <!-- / ADD USERS TO ROLE BUTTON -->
+
+    </div>
+    <!-- CONTENT -->
+</div>

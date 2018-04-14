@@ -1,0 +1,121 @@
+<div class="page-layout blank">
+
+    <app-tabs>
+        <app-tab [tabTitle]="'Home'">
+            <h3>Home</h3>
+            <p>Sed porttitor lectus nibh. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Vivamus suscipit tortor eget
+            felis porttitor volutpat. Donec rutrum congue leo eget malesuada. Vivamus magna justo, lacinia eget consectetur sed, convallis
+            at tellus. Donec sollicitudin molestie malesuada. Donec sollicitudin molestie malesuada. Curabitur non nulla sit amet nisl
+            tempus convallis quis ac lectus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Curabitur non nulla
+            sit amet nisl tempus convallis quis ac lectus.</p>
+        </app-tab>
+    </app-tabs>
+
+
+    <!-- ADMIN VIEW TEMPLATES -->
+    <ng-template #usersTpl let-data="data">
+        <app-users [data]="data"></app-users>
+    </ng-template>
+
+    <ng-template #usersProfileTpl let-data="data">
+        <app-users-profile [data]="data"></app-users-profile>
+    </ng-template>
+
+    <ng-template #settingsProfileInfoTpl>
+        <app-profile-info></app-profile-info>
+    </ng-template>
+
+    <ng-template #settingsProfileAttributesTpl>
+        <app-profile-attributes></app-profile-attributes>
+    </ng-template>
+
+    <ng-template #settingsProfileRatingsTpl>
+        <app-profile-ratings></app-profile-ratings>
+    </ng-template>
+
+    <ng-template #scheduleTpl>
+        <app-schedule></app-schedule>
+    </ng-template>
+
+    <ng-template #scheduleCalendarTpl>
+        <app-schedule-calendar></app-schedule-calendar>
+    </ng-template>
+
+    <ng-template #adminShiftListTpl>
+        <app-admin-shift-list></app-admin-shift-list>
+    </ng-template>
+
+    <ng-template #shiftsImportTpl>
+        <app-shifts-import></app-shifts-import>
+    </ng-template>
+
+    <ng-template #shiftsExportAsExcelTpl>
+        <app-shifts-export-as-excel></app-shifts-export-as-excel>
+    </ng-template>
+
+    <ng-template #shiftsExportAsPdfTpl>
+        <app-shifts-export-as-pdf></app-shifts-export-as-pdf>
+    </ng-template>
+
+    <ng-template #usersChatTpl>
+        <app-users-chat></app-users-chat>
+    </ng-template>
+
+    <ng-template #adminShiftTpl let-data="data">
+        <app-admin-shift [data]="data"></app-admin-shift>
+    </ng-template>
+
+    <ng-template #newShiftTpl let-data="data">
+        <app-new-shift [data]="data"></app-new-shift>
+    </ng-template>
+
+    <ng-template #editShiftTpl let-data="data">
+        <app-edit-shift [data]="data"></app-edit-shift>
+    </ng-template>
+
+    <ng-template #shiftRoleEditTpl let-data="data">
+        <app-shift-role-edit [data]="data"></app-shift-role-edit>
+    </ng-template>
+
+    <ng-template #settingsTpl>
+        <app-settings></app-settings>
+    </ng-template>
+
+    <ng-template #trackingTpl>
+        <app-tracking></app-tracking>
+    </ng-template>
+
+    <ng-template #adminGenStaffInvoicesTpl>
+        <app-staff-invoices-generation></app-staff-invoices-generation>
+    </ng-template>
+
+    <ng-template #adminClientInvoiceListTpl>
+        <app-client-invoice-list></app-client-invoice-list>
+    </ng-template>
+
+    <ng-template #adminStaffInvoiceListTpl>
+        <app-staff-invoice-list></app-staff-invoice-list>
+    </ng-template>
+    <!-- ADMIN VIEW TEMPLATES -->
+
+    <!-- STAFF VIEW TEMPLATES -->
+    <ng-template #staffShiftTpl let-data="data">
+        <app-staff-shift [data]="data"></app-staff-shift>
+    </ng-template>
+    <!-- / STAFF VIEW TEMPLATES -->
+
+    <!-- CLIENT VIEW TEMPLATES -->
+    <ng-template #clientShiftListTpl>
+        <app-client-shift-list></app-client-shift-list>
+    </ng-template>
+
+    <ng-template #clientShiftTpl let-data="data">
+        <app-client-shift [data]="data"></app-client-shift>
+    </ng-template>
+
+    <ng-template #clientNewBookingTpl>
+        <app-client-new-booking></app-client-new-booking>
+    </ng-template>
+    <!--  / CLIENT VIEW TEMPLATES-->
+
+</div>
